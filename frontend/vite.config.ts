@@ -13,4 +13,14 @@ export default defineConfig({
 			'@ts': path.resolve(__dirname, 'src/ts'),
 		},
 	},
+	server: {
+    cors: true,
+    proxy: {
+      "/api": {
+        target: "http://localhost:8000",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
+  },
 });

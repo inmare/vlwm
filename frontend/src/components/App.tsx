@@ -1,46 +1,78 @@
-import {useState, useEffect} from 'react';
 import '@scss/App.scss';
 
-const url = 'https://raw.githubusercontent.com/inmare/vocaloid-wiki-data/refs/heads/main/h1/%EA%B0%80.json';
-
 function App() {
-	const [data, setData] = useState<any>(null);
-	const [loading, setLoading] = useState(true);
+	const titleList = [
+		{
+			link: 'h1',
+			title: 'ㄱ',
+		},
+		{
+			link: 'h2',
+			title: 'ㄴ',
+		},
+		{
+			link: 'h3',
+			title: 'ㄷ',
+		},
+		{
+			link: 'h4',
+			title: 'ㄹ',
+		},
+		{
+			link: 'h5',
+			title: 'ㅁ',
+		},
+		{
+			link: 'h6',
+			title: 'ㅂ',
+		},
+		{
+			link: 'h7',
+			title: 'ㅅ',
+		},
+		{
+			link: 'h8',
+			title: 'ㅇ',
+		},
+		{
+			link: 'h9',
+			title: 'ㅈ',
+		},
+		{
+			link: 'h10',
+			title: 'ㅊ',
+		},
+		{
+			link: 'h11',
+			title: 'ㅋ',
+		},
+		{
+			link: 'h12',
+			title: 'ㅌ',
+		},
+		{
+			link: 'h13',
+			title: 'ㅍ',
+		},
+		{
+			link: 'h14',
+			title: 'ㅎ',
+		},
+		{
+			link: 'latin',
+			title: '라틴 문자',
+		},
+		{
+			link: 'special',
+			title: '특수 문자',
+		},
+	];
 
-	useEffect(() => {
-		fetch(url).then(async response => response.json()).then(data => {
-			setData(data);
-			setLoading(false);
-		});
-	}, []);
-
-	return (
-		<>
-			<h1>{loading ? 'Loading...' : data.page}</h1>
-			<table>
-				<tr>
-					<th>제목</th>
-					<td>{loading ? '' : data.title}</td>
-				</tr>
-				<tr>
-					<th>출처</th>
-					<td>{loading ? '' : <a href={data.songLink}>{data.songLink}</a>}</td>
-				</tr>
-				<tr>
-					<th>작곡</th>
-					<td>{loading ? '' : data.composer}</td>
-				</tr>
-				<tr>
-					<th>작사</th>
-					<td>{loading ? '' : data.lyricist}</td>
-				</tr>
-				<tr>
-					<th>노래</th>
-					<td>{loading ? '' : data.singer}</td>
-				</tr>
-			</table>
-		</>
-	);
+	return (<>
+		<ul>
+			{titleList.map((title, index) => <li key={index}><a href={'/title/' + title.link}>{title.title}</a></li>)}
+		</ul>
+	</>);
 }
 
 export default App;
