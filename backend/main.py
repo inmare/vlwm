@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import Session, create_engine, select
 from data_types import Page, TitleType, TextType
+from urllib.parse import unquote
 
 
 sqlite_file_name = "vocaloid-lyrics-wiki.db"
@@ -48,3 +49,18 @@ def get_title(titleId: str):
         pages = result.all()
         return {"pages": pages}
     # return {"text": titleId}
+
+
+@app.get("/song/{songTitle}")
+def get_song(songTitle: str):
+    with Session(engine) as session:
+        songTitle_parsed = unquote(songTitle)
+        statement = select(Page).where(Page.pageTitle == songTitle_parsed)
+        result = session.exec(statement).first()
+        # print(result.lyrics)
+        # print(result.songs)
+        lyrics = []
+        for lyrics_obj in result.lyrics:
+            lyrics.append(lyrics_obj.lyrics.split("\n"))
+
+        return {"page": result, "lyrics": lyrics, "songs": result.songs}
