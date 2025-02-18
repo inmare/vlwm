@@ -14,13 +14,18 @@ export default defineConfig({
 		},
 	},
 	server: {
-    cors: true,
-    proxy: {
-      "/api": {
-        target: "http://localhost:8000",
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
-      },
-    },
-  },
+		cors: true,
+		proxy: {
+			'/api': {
+				target: 'http://localhost:8000',
+				changeOrigin: true,
+				rewrite: path => path.replace(/^\/api/, ''),
+			},
+			'/vocadb': {
+				target: 'https://vocadb.net/api/songs',
+				changeOrigin: true,
+				rewrite: path => path.replace(/^\/vocadb/, ''),
+			},
+		},
+	},
 });
