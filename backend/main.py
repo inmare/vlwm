@@ -63,4 +63,13 @@ def get_song(songTitle: str):
         for lyrics_obj in result.lyrics:
             lyrics.append(lyrics_obj.lyrics.split("\n"))
 
-        return {"page": result, "lyrics": lyrics, "songs": result.songs}
+        songs = []
+        for songs_obj in result.songs:
+            obj = {}
+            for key, value in songs_obj.__dict__.items():
+                if key not in ["id", "page_id"]:
+                    obj[key] = value
+
+            songs.append(obj)
+
+        return {"page": result, "lyrics": lyrics, "songs": songs}
