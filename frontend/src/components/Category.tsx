@@ -1,29 +1,13 @@
-import {useState, useEffect} from 'react';
-import {useParams} from 'react-router-dom';
+import {titleList} from '@ts/titleType';
 
 export default function Category() {
-	const [data, setData] = useState<any[]>([]);
-	const {titleId} = useParams();
-
-	useEffect(() => {
-		getPages();
-	}, [titleId]);
-
-	async function getPages() {
-		const response = await fetch('/api/title/' + titleId);
-		const pages = await response.json();
-		setData(pages.pages);
-	}
-
-	return (
-		<>
-			<ul>
-				{
-					data.map((page: any, index: number) => (
-						<li key={index}>{page.pageTitle}</li>
-					))
-				}
-			</ul>
-		</>
-	);
+	return (<>
+		<ul>
+			{titleList.map((title, index) => (
+				<li key={index}>
+					<a href={'/title' + `/${title.link}`}>{title.title}</a>
+				</li>
+			))}
+		</ul>
+	</>);
 }
