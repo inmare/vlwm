@@ -1,6 +1,7 @@
 import '@scss/Lyrics.scss';
+import {type LyricData} from '@ts/dbType';
 
-export default function Lyrics({lyrics}: {lyrics: any[]}) {
+export default function Lyrics({lyrics}: {lyrics: LyricData[] | undefined}) {
 	if (!lyrics) {
 		return <p>Loading</p>;
 	}
