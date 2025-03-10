@@ -1,6 +1,6 @@
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import Layout from './Layout.tsx';
-import App from './App.tsx';
+import Home from './Home.tsx';
 import Category from './Category.tsx';
 import CategoryTitle from './CategoryTitle.tsx';
 import Song from './Song.tsx';
@@ -11,7 +11,7 @@ const router = createBrowserRouter([
 		children: [
 			{
 				path: '/',
-				element: <App />,
+				element: <Home />,
 			},
 			{
 				path: '/title',
