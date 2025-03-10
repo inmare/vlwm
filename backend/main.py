@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import Session, create_engine, select
-from data_types import Page, TitleType, TextType
+from data_types import Page, StartCharType
 from urllib.parse import unquote
 
 
@@ -32,17 +32,24 @@ def hello_world():
     return {"text": "Hello World"}
 
 
-@app.get("/title/{titleId}")
-def get_title(titleId: str):
+@app.get("/title")
+def get_title():
     with Session(engine) as session:
-        titleId_statement = select(TitleType).where(
-            TitleType.titleType == TextType[titleId].name
+        title_char_name = session.exec(select(StartCharType.charName)).all()
+        return title_char_name
+
+
+@app.get("/title/{charName}")
+def get_title_type(charName: str):
+    with Session(engine) as session:
+        titleId_statement = select(StartCharType).where(
+            StartCharType.charName == charName
         )
         titleId_result = session.exec(titleId_statement).first()
 
         statement = (
             select(Page)
-            .where(Page.titleTypeId == titleId_result.id)
+            .where(Page.startCharId == titleId_result.id)
             .order_by(Page.pageTitle)
         )
         result = session.exec(statement)
