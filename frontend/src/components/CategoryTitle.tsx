@@ -3,20 +3,21 @@ import {useParams, Link} from 'react-router-dom';
 
 export default function CategoryTitle() {
 	const [data, setData] = useState<any[]>([]);
-	const {titleId} = useParams();
+	const {titleId: charType} = useParams();
 
 	useEffect(() => {
 		getPages();
-	}, [titleId]);
+	}, [charType]);
 
 	async function getPages() {
-		const response = await fetch(`/api/title/${titleId}`);
+		const response = await fetch(`/api/title/${charType}`);
 		const pages = await response.json();
 		setData(pages.pages);
 	}
 
 	return (
 		<>
+			<h1>분류:제목/{charType}</h1>
 			<ul>
 				{
 					data.map((page: any, index: number) => (
