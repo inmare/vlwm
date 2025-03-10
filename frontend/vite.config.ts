@@ -27,5 +27,6 @@ export default defineConfig({
 				rewrite: path => path.replace(/^\/vocadb/, ''),
 			},
 		},
+		host: '0.0.0.0',
 	},
 });
