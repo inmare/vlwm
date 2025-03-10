@@ -1,5 +1,6 @@
 from sqlmodel import SQLModel, Field, Relationship
-from enum import Enum, auto
+
+# 데이터베이스의 클래스 이름은 json으로 주로 데이터 교환이 이루어진다는 것을 감안해서 camel case로 작성함
 
 
 class Page(SQLModel, table=True):
@@ -9,132 +10,40 @@ class Page(SQLModel, table=True):
     originalPageTitle: str | None = Field(default=None)
     originalTitle: str  # 원 제목
 
-    titleTypeId: int  # 제목 타입
+    startCharId: int  # 제목 타입
 
     songs: list["Song"] = Relationship(back_populates="page")
     lyrics: list["Lyrics"] = Relationship(back_populates="page")
 
 
-# TODO: scrapy의 데이터 타입과 자동으로 연동되게 하기?
 class Song(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
 
-    page_id: int | None = Field(default=None, foreign_key="page.id")
+    pageId: int | None = Field(default=None, foreign_key="page.id")
     page: Page | None = Relationship(back_populates="songs")
 
     originalUrl: str | None = Field(default=None)  # 원곡 URL
+    vocadbId: int | None  # vocadb id
+
     # 곡에 참여한 사람, 음합엔
-    composer: str | None = Field(default=None)
-    lyricist: str
-    singer: str
-    originalSong: str | None = Field(default=None)
-    arranger: str | None = Field(default=None)
-    chorus: str | None = Field(default=None)
-    vocaloidEditor: str | None = Field(default=None)
-    illustrator: str | None = Field(default=None)
-    videoProducer: str | None = Field(default=None)
-    engineering: str | None = Field(default=None)
-    mixing: str | None = Field(default=None)
-    mastering: str | None = Field(default=None)
-    pianist: str | None = Field(default=None)
-    guitarist: str | None = Field(default=None)
-    bassist: str | None = Field(default=None)
-    drummer: str | None = Field(default=None)
-    trumpeter: str | None = Field(default=None)
-    trombonist: str | None = Field(default=None)
-    altoSaxophonist: str | None = Field(default=None)
-    playerEtc: str | None = Field(default=None)
+    participants: str
 
 
 class Lyrics(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
 
-    page_id: int | None = Field(default=None, foreign_key="page.id")
+    pageId: int | None = Field(default=None, foreign_key="page.id")
     page: Page | None = Relationship(back_populates="lyrics")
 
-    lyrics: str  # 가사
+    lyrics: str  # 가사, 추후에 위키 문법으로 고치기
+    lyricsHtml: str  # 가사, HTML
+    footerHtml: str | None = Field(default=None)
+
+    # lyricsRaw: str | None = Field(default=None)  # 가사, 원본
     version: str | None = Field(default=None)
 
 
-class TitleType(SQLModel, table=True):
+class StartCharType(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
-    titleType: str
-
-
-class TextType(Enum):
-    h1 = 1  # ㄱ, ㄲ
-    h2 = 2  # ㄴ
-    h3 = 3  # ㄷ, ㄸ
-    h4 = 4  # ㄹ
-    h5 = 5  # ㅁ
-    h6 = 6  # ㅂ
-    h7 = 7  # ㅅ
-    h8 = 8  # ㅇ
-    h9 = 9  # ㅈ
-    h10 = 10  # ㅊ
-    h11 = 11  # ㅋ
-    h12 = 12  # ㅌ
-    h13 = 13  # ㅍ
-    h14 = 14  # ㅎ
-    latin = auto()  # 영어
-    special = auto()  # 특수문자
-
-
-KOREAN_TABLE = [
-    {
-        "type": TextType.h1,
-        "start": ["ㄱ", "ㄲ"],
-    },
-    {
-        "type": TextType.h2,
-        "start": ["ㄴ"],
-    },
-    {
-        "type": TextType.h3,
-        "start": ["ㄷ", "ㄸ"],
-    },
-    {
-        "type": TextType.h4,
-        "start": ["ㄹ"],
-    },
-    {
-        "type": TextType.h5,
-        "start": ["ㅁ"],
-    },
-    {
-        "type": TextType.h6,
-        "start": ["ㅂ", "ㅃ"],
-    },
-    {
-        "type": TextType.h7,
-        "start": ["ㅅ", "ㅆ"],
-    },
-    {
-        "type": TextType.h8,
-        "start": ["ㅇ"],
-    },
-    {
-        "type": TextType.h9,
-        "start": ["ㅈ", "ㅉ"],
-    },
-    {
-        "type": TextType.h10,
-        "start": ["ㅊ"],
-    },
-    {
-        "type": TextType.h11,
-        "start": ["ㅋ"],
-    },
-    {
-        "type": TextType.h12,
-        "start": ["ㅌ"],
-    },
-    {
-        "type": TextType.h13,
-        "start": ["ㅍ"],
-    },
-    {
-        "type": TextType.h14,
-        "start": ["ㅎ"],
-    },
-]
+    startChar: str  # latin, special, h1... 같은 타입
+    charName: str  # 라틴 문자, 특수 문자, ㄱ... 등등 해당 타입을 나타내는 이름
