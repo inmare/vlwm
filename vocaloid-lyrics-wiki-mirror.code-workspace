@@ -1,12 +1,17 @@
 {
   "folders": [
-	{
-		"name": "frontend",
-		"path": "frontend"
-	},
-	{
-		"path": "backend"
-	}
-],
+    {
+      "name": "vocaloid-lyrics-wiki-mirror",
+      "path": "."
+    },
+    {
+      "name": "frontend",
+      "path": "frontend"
+    },
+    {
+      "name": "backend",
+      "path": "backend"
+    }
+  ],
   "settings": {}
 }
