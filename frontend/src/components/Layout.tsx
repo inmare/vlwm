@@ -1,6 +1,5 @@
-import {Outlet} from 'react-router-dom';
-import Header from './Header';
-import '@scss/main.scss';
+import {Outlet, Link} from 'react-router-dom';
+import '@scss/Layout.scss';
 import {useState, useEffect} from 'react';
 
 export default function Layout() {
@@ -18,10 +17,17 @@ export default function Layout() {
 
 	return (
 		<>
-			<div style={{height: `${height - 100}px`}}>
-				<Header/>
+			<div style={{height: `${height}px`}} className='wrapper'>
+				<header>
+					<div className='logo'>
+						<Link to='/'>
+							<span className='main-title'>vlwm</span>
+						</Link>
+						<span className='sub-title'>보카로 가사 위키 미러</span>
+					</div>
+				</header>
 				<main >
-					<div className='wrapper'>
+					<div className='main-wrapper'>
 						<Outlet/>
 					</div>
 				</main>
