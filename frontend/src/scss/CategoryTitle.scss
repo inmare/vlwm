@@ -1,0 +1,22 @@
+@use "color";
+
+h1 {
+  padding-left: 10px;
+}
+
+hr {
+  margin: 5px 0px 10px 0px;
+}
+
+.song-list {
+  margin-left: 20px;
+
+  a {
+    color: color.$blue-200;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
