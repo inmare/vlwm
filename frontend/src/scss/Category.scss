@@ -1,8 +1,42 @@
 @use "color";
 
+$row-shadow: 0px -5px 4px 0px rgba(0, 0, 0, 0.2);
+$row-border: 10px 10px 0px 0px;
+$row-margin-top: -10px;
+
+h1 {
+  padding-left: 10px;
+}
+
+hr {
+  margin: 5px 0px 10px 0px;
+}
+
 .category-wrapper {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  overflow: visible;
+}
+
+.card-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 30px 50px 0px 10px;
+  margin-top: $row-margin-top;
+
+  &:not(:first-child) {
+    border-radius: $row-border;
+    background-color: color.$black-50;
+    box-shadow: $row-shadow;
+  }
+
+  @media (max-width: 700px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.card-wrapper {
+  padding: 0px 10px 0px 6px;
 
   a {
     color: color.$black-50;
@@ -11,16 +45,38 @@
     font-size: 20px;
   }
 
-  .card-wrapper {
-    flex-basis: 25%;
-    padding: 3px 3px 0px 3px;
+  &:nth-child(odd) .card {
+    background-color: color.$blue-700;
   }
 
-  .category-card {
-    border-radius: 10px 10px 0px 0px;
-    padding: 10px;
-    width: 100%;
-    display: inline-block;
+  &:nth-child(even) .card {
     background-color: color.$blue-600;
   }
+}
+
+.card {
+  border-radius: 10px 10px 0px 0px;
+  padding: 10px 10px 15px 10px;
+  width: 100%;
+  display: inline-block;
+  box-shadow: 2px -2px 5px 0px rgba(0, 0, 0, 0.5);
+  transition: transform 0.2s ease-out;
+
+  &:hover {
+    transform: translateY(-10px);
+  }
+
+  @media (max-width: 700px) {
+    transform: translateY(-5px);
+  }
+}
+
+.row-end {
+  height: 200px;
+  border-radius: $row-border;
+  background: linear-gradient(color.$black-50 30%, transparent);
+  box-shadow: $row-shadow;
+  position: relative;
+  z-index: 100;
+  margin-top: $row-margin-top;
 }
