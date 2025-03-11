@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react';
 import {useParams, Link} from 'react-router-dom';
+import '@scss/CategoryTitle.scss';
 
 export default function CategoryTitle() {
 	const [data, setData] = useState<any[]>([]);
@@ -18,7 +19,8 @@ export default function CategoryTitle() {
 	return (
 		<>
 			<h1>분류:제목/{charType}</h1>
-			<ul>
+			<hr />
+			<ul className='song-list'>
 				{
 					data.map((page: any, index: number) => (
 						<li key={index}>
